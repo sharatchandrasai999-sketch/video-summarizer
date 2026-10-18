@@ -1,0 +1,4 @@
+# Only needed on the GPU box to serve Mixtral yourself with vLLM.
+# Heavy install (several GB). Skip this if you use the free Groq backend.
+-r requirements.txt
+vllm==0.6.6
