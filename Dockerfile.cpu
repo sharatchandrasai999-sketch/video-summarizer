@@ -1,0 +1,23 @@
+# CPU-only image: no GPU needed. The default .env.example uses the mock
+# writer, so the app runs end to end with no model download and no API key.
+# Build:  docker build -f Dockerfile.cpu -t video-summarizer-cpu .
+# Run:    docker run -p 5000:5000 video-summarizer-cpu
+# For real summaries, pass a Groq key: docker run -p 5000:5000 -e GROQ_API_KEY=... -e LLM_BACKEND=groq video-summarizer-cpu
+# The GPU image is still Dockerfile (CUDA base) for the self-hosted vLLM path.
+FROM python:3.11-slim
+
+ENV DEBIAN_FRONTEND=noninteractive PYTHONUNBUFFERED=1
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg curl \
+ && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+COPY requirements.txt .
+RUN python -m pip install --no-cache-dir -r requirements.txt
+
+COPY config.py .env.example ./
+COPY src/ ./src/
+
+EXPOSE 5000
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "--timeout", "600", "src.app:create_app()"]
