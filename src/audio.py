@@ -15,7 +15,7 @@ def extract_audio(video_path: str, out_path: str) -> str:
         "-c:a", "pcm_s16le",
         out_path,
     ]
-    proc = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True)
+    proc = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True, check=False)  # returncode is checked below
     if proc.returncode != 0:
         raise RuntimeError(f"ffmpeg failed: {proc.stderr[-500:]}")
     return out_path

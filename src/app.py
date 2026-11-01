@@ -14,10 +14,10 @@ from functools import partial
 # make `python src/app.py` work from anywhere: project root on the path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from config import settings as default_settings
 from flask import Flask, jsonify, request
 from werkzeug.utils import secure_filename
 
-from config import settings as default_settings
 from src.jobs import JobStore
 from src.pipeline import run_job
 
