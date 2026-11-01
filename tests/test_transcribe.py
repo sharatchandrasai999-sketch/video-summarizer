@@ -1,8 +1,7 @@
 """The no_proxy sanitizer: bracketed IPv6 must not crash httpx."""
 import importlib
-import os
 
-import src.transcribe as transcribe
+from src import transcribe
 
 
 def test_sanitize_no_proxy_strips_brackets(monkeypatch):
@@ -22,7 +21,7 @@ def test_sanitize_no_proxy_leaves_clean_values(monkeypatch):
 
 def test_httpx_accepts_sanitized_proxies():
     # the real crash: URLPattern on no_proxy-derived entries
-    from httpx2._utils import get_environment_proxies, URLPattern
+    from httpx2._utils import URLPattern, get_environment_proxies
 
     for key in get_environment_proxies():
         URLPattern(key)  # must not raise

@@ -2,9 +2,8 @@
 import io
 
 import pytest
-
-import src.pipeline as pipeline
 from config import Settings
+from src import pipeline
 from src.app import create_app
 
 

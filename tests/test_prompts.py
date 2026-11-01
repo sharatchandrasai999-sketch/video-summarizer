@@ -1,6 +1,6 @@
 """Prompt strategies: the right text goes into the right prompt."""
 from src import prompts
-from src.summarize import MockClient, summarize, _parse_json, _parse_loose
+from src.summarize import MockClient, _parse_json, _parse_loose, summarize
 
 
 def test_all_strategies_listed():
